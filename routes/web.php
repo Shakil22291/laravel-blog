@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PostsController;
+use App\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,5 +22,13 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
+Route::get('/posts/create', [PostsController::class, 'create'])->name('posts.create');
+Route::post('/posts', [PostsController::class, 'store']);
+Route::get('/posts/{post:slug}', [PostsController::class, 'show'])->name('posts.show');
+Route::delete('/posts/{post:slug}', [PostsController::class, 'destroy'])->name('posts.destroy');
+
+Route::get('tags/{tag:slug}', [TagsController::class, 'show'])->name('tags.show');
 
 require __DIR__.'/auth.php';
