@@ -5,8 +5,13 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if (session('message'))
+                <div class="bg-green-300 mb-4 text-green-900 p-6 border-b border-gray-200 overflow-hidden shadow-sm sm:rounded-lg">
+                    {{session('message')}}
+                </div>
+            @endif
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     You're logged in!

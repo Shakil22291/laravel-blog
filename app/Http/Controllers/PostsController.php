@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -29,18 +30,23 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create', [
+            'tags' => Tag::all()
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Requests\StorePostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        //
+        $request->store();
+
+        return redirect(route('dashboard'))
+            ->with('message', 'Post created Successfully');
     }
 
     /**
@@ -89,7 +95,7 @@ class PostsController extends Controller
 
         $post->delete();
 
-        return redirect(route('posts.index'))
+        return redirect(route('dashboard'))
             ->with('message', 'Post Deleted successfully');
     }
 }
