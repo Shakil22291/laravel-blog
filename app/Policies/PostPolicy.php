@@ -42,7 +42,7 @@ class PostPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasAbility('create_post');
     }
 
     /**
@@ -66,7 +66,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return $user->id === $post->user_id
+        return $post->user()->is($user)
                     ? Response::allow()
                     : Response::deny('You do not own this post');
     }

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePostRequest;
-use App\Models\Post;
-use App\Models\Tag;
+use App\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
-class PostsController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,10 +14,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('posts.index', [
-            'posts' => Post::latest()->get(),
-            'tags' => Tag::latest()->get()
-        ]);
+        //
     }
 
     /**
@@ -30,34 +24,27 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create', [
-            'tags' => Tag::all()
-        ]);
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Requests\StorePostRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePostRequest $request)
+    public function store(Request $request)
     {
-        $this->authorize('create');
-
-        $request->store();
-
-        return redirect(route('dashboard'))
-            ->with('message', 'Post created Successfully');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Role $role)
     {
         //
     }
@@ -65,10 +52,10 @@ class PostsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Role $role)
     {
         //
     }
@@ -77,10 +64,10 @@ class PostsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
         //
     }
@@ -88,16 +75,11 @@ class PostsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Post
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Role $role)
     {
-        $this->authorize($post);
-
-        $post->delete();
-
-        return redirect(route('dashboard'))
-            ->with('message', 'Post Deleted successfully');
+        //
     }
 }

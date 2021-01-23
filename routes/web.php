@@ -24,7 +24,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
-Route::get('/posts/create', [PostsController::class, 'create'])->name('posts.create');
+Route::get('/posts/create', [PostsController::class, 'create'])
+    ->middleware('can:create')
+    ->name('posts.create');
 Route::post('/posts', [PostsController::class, 'store']);
 Route::get('/posts/{post:slug}', [PostsController::class, 'show'])->name('posts.show');
 Route::delete('/posts/{post:slug}', [PostsController::class, 'destroy'])->name('posts.destroy');

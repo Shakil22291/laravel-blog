@@ -31,7 +31,7 @@
                     </a>
                 @endforeach
             </div>
-            {{-- @can('delete', $post) --}}
+            @can('delete', $post)
                 <form action="{{ route('posts.destroy', $post->slug) }}" method="POST">
                     @csrf
                     @method('DELETE')
@@ -43,7 +43,7 @@
                         Delete this post
                     </button>
                 </form>
-            {{-- @endcan --}}
+            @endcan
         </div>
     </div>
 </article>

@@ -29,14 +29,13 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // Gate::before(function(User $user) {
-        //     if($user->id == 9) {
-        //         return true;
-        //     }
-        // });
-
-        // Gate::define('delete-post', function(User $user, Post $post) {
-        //     return $user->id === $post->user_id;
-        // });
+        Gate::before(function(User $user, $ability) {
+            if ($user->isAdmin()) {
+                return true;
+            }
+            if($user->abilities()->contains($ability)) {
+                return true;
+            }
+        });
     }
 }
