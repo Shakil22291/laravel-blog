@@ -6,10 +6,19 @@ use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class PostsController extends Controller
 {
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Post::class, 'posts');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -43,8 +52,6 @@ class PostsController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $this->authorize('create');
-
         $request->store();
 
         return redirect(route('dashboard'))
@@ -93,8 +100,6 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
-        $this->authorize($post);
-
         $post->delete();
 
         return redirect(route('dashboard'))

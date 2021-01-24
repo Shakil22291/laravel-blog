@@ -11,6 +11,13 @@ class PostPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user)
+    {
+        if ($user->hasAbility('manage_posts')) {
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can view any models.
      *
@@ -19,7 +26,7 @@ class PostPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -31,7 +38,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        //
+        return true;
     }
 
     /**
@@ -42,7 +49,7 @@ class PostPolicy
      */
     public function create(User $user)
     {
-        return $user->hasAbility('create_post');
+        return $user->hasAbility('manage_posts');
     }
 
     /**
@@ -54,7 +61,9 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        //
+        return $post->user()->is($user)
+                    ? Response::allow()
+                    : Response::deny('You do not own this post');
     }
 
     /**
