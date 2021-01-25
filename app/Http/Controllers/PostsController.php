@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreated;
 use App\Http\Requests\StorePostRequest;
+use App\Jobs\NotifyPostCreated;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -52,7 +54,10 @@ class PostsController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $request->store();
+        $post = $request->store();
+
+        // event(new PostCreated($post));
+        NotifyPostCreated::dispatch($post);
 
         return redirect(route('dashboard'))
             ->with('message', 'Post created Successfully');
