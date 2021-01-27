@@ -11,6 +11,11 @@ class Post extends Model
 
     protected $guarded = [];
 
+    public function hasThumbnail()
+    {
+        return $this->thumbnail_path !== null;
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -24,5 +29,10 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function hasTag($id)
+    {
+        return $this->tags->pluck('id')->contains($id);
     }
 }
