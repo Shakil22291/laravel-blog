@@ -8,6 +8,7 @@ use App\Jobs\NotifyPostCreated;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
@@ -103,6 +104,11 @@ class PostsController extends Controller
     public function destroy(Post $post)
     {
         $this->authorize(Post::class);
+
+        if ($post->thumbnail_path !== null) {
+            Storage::delete($post->thumbnail_path);
+        }
+
         $post->delete();
 
         return redirect(route('dashboard'))
