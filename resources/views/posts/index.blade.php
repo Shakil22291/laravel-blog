@@ -36,6 +36,7 @@
                     </div>
                 </div>
            @endforelse
+           {{ $posts->links() }}
         </div>
     </div>
 </x-app-layout>

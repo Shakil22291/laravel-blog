@@ -47,7 +47,7 @@ class TagsController extends Controller
     public function show(Tag $tag)
     {
         return view('posts.index', [
-            'posts' => $tag->posts()->latest()->get(),
+            'posts' => $tag->posts()->latest()->paginate(2),
             'tags' => Tag::latest()->get()
         ]);
     }

@@ -12,16 +12,6 @@ use Illuminate\Http\Request;
 class PostsController extends Controller
 {
     /**
-     * Create the controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->authorizeResource(Post::class, 'posts');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -29,7 +19,7 @@ class PostsController extends Controller
     public function index()
     {
         return view('posts.index', [
-            'posts' => Post::latest()->get(),
+            'posts' => Post::latest()->paginate(2),
             'tags' => Tag::latest()->get()
         ]);
     }
@@ -41,6 +31,7 @@ class PostsController extends Controller
      */
     public function create()
     {
+        $this->authorize(Post::class);
         return view('posts.create', [
             'tags' => Tag::all()
         ]);
@@ -54,6 +45,7 @@ class PostsController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        $this->authorize(Post::class);
         $post = $request->store();
 
         // event(new PostCreated($post));
@@ -105,6 +97,7 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize(Post::class);
         $post->delete();
 
         return redirect(route('dashboard'))
