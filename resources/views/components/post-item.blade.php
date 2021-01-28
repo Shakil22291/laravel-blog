@@ -31,19 +31,7 @@
                     </a>
                 @endforeach
             </div>
-            @can('delete', $post)
-                <form action="{{ route('posts.destroy', $post->slug) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button
-                        type="submit"
-                        href="{{ route('posts.destroy', $post->slug) }}"
-                        class="mt-2 text-red-700 font-bold text-sm hover:text-red-500"
-                    >
-                        Delete this post
-                    </button>
-                </form>
-            @endcan
+            <a href="{{ route('posts.show', $post->slug) }}" class="text-sm text-indigo-500 hover:underline">Read More</a>
         </div>
     </div>
 </article>

@@ -3,6 +3,8 @@
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\UserProfilePhotosController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,6 +16,13 @@ Route::get('/dashboard', function () {
         'posts' => auth()->user()->posts
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::get('user/{user}', [UserProfileController::class, 'show'])->name('profile.show');
+Route::get('user/{user}/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
+
+Route::post('/user/{user}/profile-photo', [UserProfilePhotosController::class, 'store']);
+Route::delete('/user/{user}/profile-photo', [UserProfilePhotosController::class, 'destroy']);
 
 Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
 Route::get('/posts/create', [PostsController::class, 'create'])->name('posts.create');

@@ -14,8 +14,12 @@
             @endif
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h2 class="mb-2 text-xl">Your posts</h2>
-                    <x-posts-table :posts="$posts"/>
+                    @if($posts->isNotEmpty())
+                        <h2 class="mb-2 text-xl">Your posts</h2>
+                        <x-posts-table :posts="$posts"/>
+                    @else
+                        <h2 class="text-xl">No post you have created</h2>
+                    @endif
                 </div>
             </div>
         </div>

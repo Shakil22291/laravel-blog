@@ -19,20 +19,22 @@
                 label="Post Title"
                 value="{{ $post->title }}"
             />
-            <x-forms.select
-                name="tags[]"
-                label="Post Tags"
-                :options="['multiple' => true]"
-            >
-                @foreach($tags as $tag)
-                    <option
-                        value="{{ $tag->id }}"
-                        {{ $post->hasTag($tag->id) ? 'selected' : '' }}
-                    >
-                        {{ $tag->name }}
-                    </option>
-                @endforeach
-            </x-forms.select>
+            @if($tags->isNotEmpty())
+                <x-forms.select
+                    name="tags[]"
+                    label="Post Tags"
+                    :options="['multiple' => true]"
+                >
+                    @foreach($tags as $tag)
+                        <option
+                            value="{{ $tag->id }}"
+                            {{ $post->hasTag($tag->id) ? 'selected' : '' }}
+                        >
+                            {{ $tag->name }}
+                        </option>
+                    @endforeach
+                </x-forms.select>
+            @endif()
             <div>
                 @if($post->hasThumbnail())
                     <img

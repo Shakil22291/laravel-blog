@@ -16,9 +16,11 @@
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
-                            {{ __('Create Post') }}
-                        </x-nav-link>
+                        @can('manage_post')
+                            <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
+                                {{ __('Create Post') }}
+                            </x-nav-link>
+                        @endcan
                     @endauth
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                         {{ __('Posts') }}
@@ -38,18 +40,26 @@
                                 <div>{{ Auth::user()->name }}</div>
 
                                 <div class="ml-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    {{-- <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                    </svg>
+                                    </svg> --}}
+                                    <img
+                                        class="h-8 w-8 rounded-full object-cover"
+                                        src="{{ Auth::user()->profile_photo_url }}"
+                                        alt="{{ Auth::user()->name }}"
+                                    />
                                 </div>
                             </button>
                         </x-slot>
 
                         <x-slot name="content">
+                            <x-dropdown-link :href="route('profile.show', Auth::id())">
+                                {{ __('Profile') }}
+                            </x-dropdown-link>
+
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-
                                 <x-dropdown-link :href="route('logout')"
                                         onclick="event.preventDefault();
                                                     this.closest('form').submit();">
@@ -118,6 +128,13 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
+                    <x-responsive-nav-link
+                        :active="Request::routeIs('profile.show')"
+                        :href="route('profile.show', Auth::id())"
+                    >
+                        {{ __('Profile') }}
+                    </x-responsive-nav-link>
+
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

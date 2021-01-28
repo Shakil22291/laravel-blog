@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Authorizable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, Authorizable;
 
     /**
      * The attributes that are mass assignable.
@@ -46,32 +49,43 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Post::class);
     }
 
-    public function isAdmin()
+    /**
+     * Get the URL to the user's profile photo.
+     *
+     * @return string
+     */
+    public function getProfilePhotoUrlAttribute()
     {
-        return $this->roles->pluck('name')->contains('admin') ;
+        return $this->profile_photo_path
+                    ? Storage::disk('public')->url($this->profile_photo_path)
+                    : $this->defaultProfilePhotoUrl();
     }
 
-    public function roles()
+    public function defaultProfilePhotoUrl()
     {
-        return $this->belongsToMany(Role::class)->withTimestamps();
+        return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&color=7F9CF5&background=EBF4FF';
     }
 
-    public function assignRole($role)
+    public function updateProfilePhoto(UploadedFile $photo)
     {
-        if (is_string($role)) {
-            $role = Role::whereName($role)->firstOrFail();
-        }
+        tap($this->profile_photo_path, function($previous) use ($photo) {
 
-        $this->roles()->sync($role, false);
+            $this->forceFill([
+                'profile_photo_path' => $photo->storePublicly('profile-photos')
+            ])->save();
+
+            if ($previous) {
+                Storage::disk('public')->delete($previous);
+            }
+        });
     }
 
-    public function abilities()
+    public function deleteProfilePhoto()
     {
-        return $this->roles->map->abilities->flatten()->pluck('name')->unique();
-    }
+        Storage::disk('public')->delete($this->profile_photo_path);
 
-    public function hasAbility($ability)
-    {
-        return $this->abilities()->contains($ability);
+        $this->forceFill([
+            'profile_photo_path' => null
+        ])->save();
     }
 }
