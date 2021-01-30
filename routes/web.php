@@ -1,21 +1,30 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserProfilePhotosController;
+use App\Models\Post;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PagesController::class, 'welcome']);
 
 Route::get('/dashboard', function () {
     return view('dashboard', [
         'posts' => auth()->user()->posts
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/search', function(Request $request) {
+    $posts = Post::all()->search('t');
+    ddd($posts);
+    // return view('search', [
+    //     'posts' => Post::search($request->input('search'))
+    // ]);
+});
 
 
 Route::get('user/{user}', [UserProfileController::class, 'show'])->name('profile.show');

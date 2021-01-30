@@ -30,6 +30,7 @@
                     </x-nav-link>
                 </div>
             </div>
+        <x-search-input></x-search-input>
 
             <!-- Settings Dropdown -->
             @auth
