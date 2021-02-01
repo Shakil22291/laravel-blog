@@ -2,23 +2,19 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasEditableBody;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, HasEditableBody;
 
     protected $guarded = [];
 
     public function hasThumbnail()
     {
         return $this->thumbnail_path !== null;
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function user()
@@ -35,4 +31,5 @@ class Post extends Model
     {
         return $this->tags->pluck('id')->contains($id);
     }
+
 }

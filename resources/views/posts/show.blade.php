@@ -37,7 +37,7 @@
                     </a>
                 @endforeach
             </div>
-            <p class="text-base "> {{ $post->body }} </p>
+            <div> {!! $post->getBodyAsHtml() !!} </div>
         </div>
     </div>
 </x-app-layout>

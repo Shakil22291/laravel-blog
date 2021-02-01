@@ -11,14 +11,6 @@ class PagesController extends Controller
 {
     public function welcome()
     {
-        $post = new Post();
-
-        $result = DB::table('posts')->select('title');
-
-        die(
-            var_dump(
-                $result->addSelect('body')->get()
-            )
-        );
+        return view('welcome');
     }
 }

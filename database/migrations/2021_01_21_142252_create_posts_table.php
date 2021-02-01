@@ -20,7 +20,7 @@ class CreatePostsTable extends Migration
                 ->onDelete('cascade');
             $table->string('title');
             $table->string('slug')->unique();
-            $table->longText('body');
+            $table->json('body');
             $table->text('thumbnail_path')->nullable();
             $table->timestamps();
         });

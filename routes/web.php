@@ -10,6 +10,14 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/example', function(Request $request) {
+    $body = $request->input('body');
+    $json = json_encode($body);
+    $decoded = json_decode($body, true);
+    die(var_dump($decoded));
+    // ddd($body);
+});
+
 Route::get('/', [PagesController::class, 'welcome']);
 
 Route::get('/dashboard', function () {

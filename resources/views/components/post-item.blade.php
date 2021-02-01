@@ -20,7 +20,6 @@
                 href="{{route('posts.show', $post->slug)}}"
                 class="mt-1 block text-lg leading-tight font-medium text-black hover:underline"
             >{{ $post->title }}</a>
-            <p class="text-gray-500 mt-2">{{ excerpt($post->body) }}</p>
             <div class="flex mt-2 space-x-2">
                 @foreach ($post->tags as $tag)
                     <a
