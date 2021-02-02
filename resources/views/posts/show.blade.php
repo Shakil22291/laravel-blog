@@ -19,9 +19,9 @@
                 {{ $post->title }}
             </h2>
             @if ($post->thumbnail_path !== null)
-                <div class="mt-2">
+                <div class="mt-2 w-full">
                     <img
-                        class="w-full object-cover md:w-4/5"
+                        class="w-full object-cover max-h-96"
                         src="{{ asset('storage/' . $post->thumbnail_path) }}"
                         alt="{{ $post->title }}"
                     >

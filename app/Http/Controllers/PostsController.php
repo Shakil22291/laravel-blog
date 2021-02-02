@@ -96,7 +96,7 @@ class PostsController extends Controller
         $this->authorize('update', $post);
 
         if ($request->update($post)) {
-            return redirect(route('dashboard'))
+            return redirect(route('posts.edit', $post))
                 ->with('message', 'Post updated successfully');
         }
     }

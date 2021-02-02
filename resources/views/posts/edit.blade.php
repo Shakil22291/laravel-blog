@@ -6,17 +6,8 @@
             name="title"
             value="{{ old('title', $post->title) }}"
         />
-        <div class="flex justify-end">
-            <button
-                class="text-indigo-600 text-sm"
-                id="saveButton"
-                type="button"
-            >Save</button>
-
-        </div>
         <div id="editorjs"></div>
-        <input name="body" type="text" id="faceInput">
-        <input type="text" id="oldBody" value="{{ $post->body }}">
+        <input name="body" type="text" id="faceInput" value="{{ old('body', $post->body) }}">
     </x-slot>
 
     <x-slot name="sidebar">
@@ -83,6 +74,6 @@
     </x-slot>
 
     <x-slot name="scripts">
-        <script src="{{ asset('js/post-edit.js') }}"></script>
+        <script src="{{ asset('js/post-create.js') }}"></script>
     </x-slot>
 </x-post-edit-layout>

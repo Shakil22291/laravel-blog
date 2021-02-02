@@ -1,12 +1,26 @@
 import EditorJs from "@editorjs/editorjs";
 import Header from "@editorjs/header";
+import Raw from "@editorjs/raw";
+import SimpleImage from "./tools/SimpleImage";
 
 function getOldValue() {
-    const inputValue = document.getElementById('oldBody').value;
-    if (inputValue !== '') {
-        return JSON.parse(inputValue);
+    const faceInput = document.querySelector("#faceInput").value;
+    if (faceInput  !== '') {
+        return JSON.parse(faceInput);
     }
     return {};
+}
+
+function saveEditor() {
+    editor
+        .save()
+        .then((outputData) => {
+            faceInput.value = JSON.stringify(outputData);
+        })
+        .catch((error) => {
+            alert('error');
+            console.log(error);
+        });
 }
 
 const editor = new EditorJs({
@@ -21,24 +35,16 @@ const editor = new EditorJs({
                 defaultLevel: 1,
             },
         },
+        raw: Raw,
+        image: {
+            class: SimpleImage,
+            inlineToolbar: true
+        }
     },
     placeholder: 'Write your masterpiece',
-    data: getOldValue()
+    data: getOldValue(),
+    onChange() {
+        console.log('I am changed');
+        saveEditor();
+    }
 });
-
-const saveButton = document.querySelector("#saveButton");
-const faceInput = document.querySelector("#faceInput");
-
-function saveEditor() {
-    editor
-        .save()
-        .then((outputData) => {
-            faceInput.value = JSON.stringify(outputData);
-        })
-        .catch((error) => {
-            alert('error');
-            console.log(error);
-        });
-}
-
-saveButton.addEventListener("click", saveEditor);

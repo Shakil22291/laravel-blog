@@ -15,8 +15,8 @@
             <a href="/"><x-application-logo class="w-14" /></a>
             <h2 class="flex-1 text-3xl font-semibold text-gray-600">Write Your masterpice</h2>
         </div>
-        <div class="h-full">
-            <x-button class="bg-red-600 text-red-200 hover:text-red-600 hover:bg-red-200">cancel</x-button>
+        <div class="flex space-x-4 items-center">
+            <a href="{{ route('dashboard') }}" class="text-red-600 font-bold">Cancel</a>
             <x-button
                 class="bg-blue-600"
                 onclick="document.getElementById('mainForm').submit()"
@@ -30,6 +30,11 @@
             <div class="overflow-y-auto py-12 flex-1">
                 <div class="mb-6 mx-auto" style="max-width: 650px">
                     <x-auth-validation-errors></x-auth-validation-errors>
+                    @if (session('message'))
+                        <div class="bg-green-300 mb-4 text-green-900 p-6 border-b border-gray-200 overflow-hidden shadow-sm sm:rounded-lg">
+                            {{session('message')}}
+                        </div>
+                    @endif
                     {{ $main }}
                 </div>
             </div>

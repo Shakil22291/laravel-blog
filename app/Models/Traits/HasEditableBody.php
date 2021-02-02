@@ -17,6 +17,13 @@ trait HasEditableBody
                     break;
                 case "header":
                     $output .= $this->getHeader($block);
+                    break;
+                case "raw":
+                    $output .= $this->getRaw($block);
+                    break;
+                case "image":
+                    $output .= $this->getImage($block);
+                    break;
             }
         }
 
@@ -57,6 +64,24 @@ trait HasEditableBody
             <h{$block['data']['level']} class='{$classes} font-semilold text-gray-600'>
                  {$block['data']['text']}
             </h{$block['data']['level']}>
+        ";
+    }
+
+    private function getRaw($block)
+    {
+        return "
+            <div class='max-w-full h-auto'>
+                {$block['data']['html']}
+            </div>
+        ";
+    }
+
+    private function getImage($block)
+    {
+        return "
+            <div>
+                <img src=\"{$block['data']['url']}\">
+            </div>
         ";
     }
 }

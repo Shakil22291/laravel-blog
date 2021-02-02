@@ -6,17 +6,8 @@
             name="title"
             value="{{ old('title')}}"
         />
-        <div class="flex justify-end">
-            <button
-                class="text-indigo-600 text-sm"
-                id="saveButton"
-                type="button"
-            >Save</button>
-
-        </div>
         <div id="editorjs"></div>
-        <input name="body" type="text" id="faceInput">
-        <input type="text" id="oldBody" value="{{ old('body') }}">
+        <input name="body" type="text" id="faceInput" value="{{ old('body') }}">
     </x-slot>
 
     <x-slot name="sidebar">
