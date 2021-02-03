@@ -11,7 +11,9 @@
       <tbody class="text-sm font-normal text-gray-700">
         @foreach ($posts as $post)
           <tr class="hover:bg-gray-100 border-b border-gray-200 py-10">
-            <td class="px-4 py-4">{{ $post->title }}</td>
+            <td class="px-4 py-4">
+              <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-blue-500">{{ $post->title }}</a>
+            </td>
             <td class="px-4 py-4">{{ $post->created_at->diffForHumans() }}</td>
             <td class="px-4 py-4">{{ $post->updated_at->diffForHumans() }}</td>
             <td class="px-4 py-4 flex space-x-2">

@@ -32,4 +32,9 @@ class Post extends Model
         return $this->tags->pluck('id')->contains($id);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 }

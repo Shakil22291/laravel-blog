@@ -6,6 +6,11 @@
     </x-slot>
 
     <div class="container py-12 mx-auto px-2">
+        @if (session('message'))
+            <div class="bg-green-300 mb-4 text-green-900 p-6 border-b border-gray-200 overflow-hidden shadow-sm sm:rounded-lg">
+                {{session('message')}}
+            </div>
+        @endif
         <div class="max-w-3xl mx-auto">
             <p class="text-gray-600 text-sm font-light">
                 {{ $post->created_at->diffForHumans() }}
@@ -37,7 +42,26 @@
                     </a>
                 @endforeach
             </div>
-            <div> {!! $post->getBodyAsHtml() !!} </div>
+            <div class="mt-6"> {!! $post->getBodyAsHtml() !!} </div>
+            <div class="my-12">
+                <h2 class="text-xl font-bold text-gray-700">Comments</h2>
+                <hr>
+                @auth
+                    <form class="my-6" action="/comments/{{ $post->id }}" method="POST">
+                        @csrf
+                        <x-forms.textarea
+                            name="body"
+                            label="Write your comment"
+                            placeholder="What an awesome story.."
+                            ></x-forms.textarea
+                        >
+                        <x-button type="submit">Publish</x-button>
+                    </form>
+                @endauth
+                @foreach($post->comments as $comment)
+                    <x-post-comments :comment="$comment" />
+                @endforeach
+            </div>
         </div>
     </div>
 </x-app-layout>

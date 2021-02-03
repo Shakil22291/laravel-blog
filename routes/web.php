@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PostsController;
@@ -26,6 +27,8 @@ Route::get('/search', function(Request $request) {
     // ]);
 });
 
+Route::post('/comments/{post}', [CommentController::class, 'store']);
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 
 Route::get('user/{user}', [UserProfileController::class, 'show'])->name('profile.show');
 Route::get('user/{user}/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
@@ -40,6 +43,7 @@ Route::get('/posts/{post:slug}', [PostsController::class, 'show'])->name('posts.
 Route::delete('/posts/{post:slug}', [PostsController::class, 'destroy'])->name('posts.destroy');
 Route::get('/posts/{post:slug}/edit', [PostsController::class, 'edit'])->name('posts.edit');
 Route::patch('/posts/{post:slug}', [PostsController::class, 'update']);
+
 
 Route::get('tags/{tag:slug}', [TagsController::class, 'show'])->name('tags.show');
 
